@@ -564,6 +564,13 @@ class PlaybackState {
                 ? PlaybackStates.Passed
                 : PlaybackStates.Failed
             )
+
+            if (this.isPlayingSuite && this.hasFinishedSuccessfully) {
+              if (this.logger && typeof this.logger.clearLogs === 'function') {
+                this.logger.clearLogs();
+              }
+            }
+
             this.isPlaying = false
             this.isStopping = false
             return res()
