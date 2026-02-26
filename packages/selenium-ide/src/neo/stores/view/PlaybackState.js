@@ -565,11 +565,21 @@ class PlaybackState {
                 : PlaybackStates.Failed
             )
 
-            if (this.isPlayingSuite && this.hasFinishedSuccessfully) {
+            if (this.isPlayingSuite) {
+              
               if (this.logger && typeof this.logger.clearLogs === 'function') {
                 this.logger.clearLogs();
               }
-            }
+
+              if (this.testState && typeof this.testState.entries === 'function') {
+                for (const [key, value] of this.testState.entries()) {
+                  if (key !== this.stackCaller.id) {
+                    this.testState.delete(key);
+                  }
+                }
+              }
+
+            } 
 
             this.isPlaying = false
             this.isStopping = false
