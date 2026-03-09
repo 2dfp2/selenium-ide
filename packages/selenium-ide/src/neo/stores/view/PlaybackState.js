@@ -483,6 +483,8 @@ class PlaybackState {
     this.originalCalledTest = this.currentRunningTest
     this.runningQueue = this.currentRunningTest.commands.slice()
     this.clearStack()
+    this.clearCommandStates()
+    this.logger.clearLogs()
     this.errors = 0
     this.forceTestCaseFailure = false
     this.emitPlaybackStarted().then(
@@ -564,22 +566,6 @@ class PlaybackState {
                 ? PlaybackStates.Passed
                 : PlaybackStates.Failed
             )
-
-            if (this.isPlayingSuite) {
-              
-              if (this.logger && typeof this.logger.clearLogs === 'function') {
-                this.logger.clearLogs();
-              }
-
-              if (this.testState && typeof this.testState.entries === 'function') {
-                for (const [key, value] of this.testState.entries()) {
-                  if (key !== this.stackCaller.id) {
-                    this.testState.delete(key);
-                  }
-                }
-              }
-
-            } 
 
             this.isPlaying = false
             this.isStopping = false
