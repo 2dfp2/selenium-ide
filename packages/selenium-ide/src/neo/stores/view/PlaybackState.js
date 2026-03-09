@@ -483,8 +483,6 @@ class PlaybackState {
     this.originalCalledTest = this.currentRunningTest
     this.runningQueue = this.currentRunningTest.commands.slice()
     this.clearStack()
-    this.clearCommandStates()
-    this.logger.clearLogs()
     this.errors = 0
     this.forceTestCaseFailure = false
     this.emitPlaybackStarted().then(
@@ -496,6 +494,8 @@ class PlaybackState {
           true
         )
         UiState.selectCommand(undefined)
+        this.clearCommandStates()
+        this.logger.clearLogs()
         this.play()
       })
     )
